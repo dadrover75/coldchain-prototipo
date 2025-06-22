@@ -1,0 +1,22 @@
+services:
+  mqtt:
+    build:
+      context: ./docker/mosquitto  # <-- usa tu Dockerfile personalizado
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./docker/mosquitto:/mosquitto/config
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: coldchain
+      POSTGRES_USER: diana
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
