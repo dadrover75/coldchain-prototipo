@@ -12,6 +12,7 @@ public class Main {
         Random random = new Random();
 
         String broker = "tcp://localhost:1883";
+        // String broker = "tcp://35.188.27.195:1883"; // para testear en la nube
         String clientId = "simulator123";
 
         MqttClient client = new MqttClient(broker, clientId, null);
