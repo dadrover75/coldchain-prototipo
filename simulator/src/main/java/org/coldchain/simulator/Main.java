@@ -1,4 +1,5 @@
-package org.FAKER;
+package org.coldchain.simulator;
+
 
 import java.time.Instant;
 import java.util.Random;
