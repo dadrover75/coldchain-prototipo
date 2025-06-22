@@ -30,7 +30,9 @@ public class MqttService {
             client.subscribe("device/temperature", (topic, msg) -> {
                 String payload = new String(msg.getPayload());
                 System.out.println("Mensaje recibido: " + payload);
-                // Aquí podés agregar deserialización y lógica de negocio
+
+
+                // Aquí puedes procesar el mensaje recibido, por ejemplo, guardarlo en una base de datos
             });
 
             System.out.println("Conectado a MQTT y suscripto a topic device/temperature");
