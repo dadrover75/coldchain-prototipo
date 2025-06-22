@@ -4,12 +4,16 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 
 import org.eclipse.paho.client.mqttv3.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MqttService {
 
-    private static final String BROKER_URI = "tcp://mqtt:1883"; // "mqtt" es el nombre del servicio en docker-compose
+    @Value("${mqtt.broker.uri}")
+    private String BROKER_URI;
+    //private static final String BROKER_URI = "tcp://localhost:1883"; // para probar hasta que funcione docker backend, usar localhost:1883
+    //private static final String BROKER_URI = "tcp://mqtt:1883"; // "mqtt" es el nombre del servicio en docker-compose
     private static final String CLIENT_ID = "backend-subscriber";
 
     private MqttClient client;

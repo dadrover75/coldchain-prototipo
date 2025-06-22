@@ -1,11 +1,15 @@
+version: '3.8'
+
 services:
   mqtt:
     build:
-      context: ./docker/mosquitto  # <-- usa tu Dockerfile personalizado
+      context: .
+      dockerfile: docker/mosquitto/Dockerfile
     ports:
       - "1883:1883"
     volumes:
       - ./docker/mosquitto:/mosquitto/config
+    restart: always
 
   postgres:
     image: postgres:15
@@ -14,9 +18,27 @@ services:
       POSTGRES_USER: diana
       POSTGRES_PASSWORD: secret
     ports:
-      - "5432:5432"
+      - "5432:5432"   # Solo exponer si necesitas acceso desde afuera, si no, podés quitarlo
     volumes:
       - pgdata:/var/lib/postgresql/data
+    restart: always
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/coldchain
+      SPRING_DATASOURCE_USERNAME: diana
+      SPRING_DATASOURCE_PASSWORD: secret
+      MQTT_BROKER_URI: tcp://mqtt:1883
+    depends_on:
+      - postgres
+      - mqtt
+    restart: on-failure
 
 volumes:
   pgdata:
+    driver: local

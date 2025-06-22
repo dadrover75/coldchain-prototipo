@@ -21,7 +21,7 @@ public class Main {
         client.connect(options);
 
         try {
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 100; i++) {
                 // Variación suave: entre -0.5 y +0.5
                 double delta = -0.5 + random.nextDouble();
                 temperature += delta;
@@ -39,7 +39,7 @@ public class Main {
                 client.publish("device/temperature", mqttMessage);
 
                 System.out.println("Publicado: " + message);
-                Thread.sleep(5000);
+                Thread.sleep(3000);
             }
         } finally {
             client.disconnect();
