@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket STOMP Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+</head>
+<body>
+<h2>Lecturas:</h2>
+<ul id="readings"></ul>
+
+<script>
+    const socket = new SockJS('http://localhost:8080/ws-readings');
+    const stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function (frame) {
+        console.log('Conectado: ' + frame);
+
+        stompClient.subscribe('/topic/readings', function (message) {
+            const reading = JSON.parse(message.body);
+            const li = document.createElement('li');
+            li.textContent = `Dispositivo: ${reading.device_id}, Temp: ${reading.temperature}, Estado: ${reading.status}`;
+            document.getElementById('readings').appendChild(li);
+        });
+    });
+</script>
+</body>
+</html>

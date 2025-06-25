@@ -1,5 +1,6 @@
 package com.coldchain.backend.mqtt;
 
+import com.coldchain.backend.controller.ReadingWebSocketController;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 
@@ -26,12 +27,13 @@ public class MqttService {
     private MqttClient client;
     private final ReadingRepository readingRepository;
     private final TemperatureService temperatureService;  // Inyectamos el servicio
-
+    private final ReadingWebSocketController readingWebSocketController;
 
     @Autowired
-    public MqttService(ReadingRepository readingRepository, TemperatureService temperatureService) {
+    public MqttService(ReadingRepository readingRepository, TemperatureService temperatureService, ReadingWebSocketController readingWebSocketController) {
         this.readingRepository = readingRepository;
         this.temperatureService = temperatureService;
+        this.readingWebSocketController = readingWebSocketController;
     }
 
     @PostConstruct
@@ -58,6 +60,9 @@ public class MqttService {
                     reading.setStatus(status);
 
                     readingRepository.save(reading);
+                    // Enviar la lectura a través de WebSocket
+                    System.out.println("Enviando por WebSocket: " + reading);
+                    readingWebSocketController.sendReading(reading);
                     System.out.println("Lectura guardada en base de datos: " + reading.getDeviceId() + " " + reading.getTemperature());
                 } catch (IOException e) {
                     System.err.println("Error al convertir o guardar el mensaje: " + e.getMessage());
