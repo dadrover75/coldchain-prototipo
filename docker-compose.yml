@@ -18,7 +18,7 @@ services:
       POSTGRES_USER: diana
       POSTGRES_PASSWORD: secret
     ports:
-      - "5432:5432"   # Solo exponer si necesitas acceso desde afuera, si no, podés quitarlo
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     restart: always
@@ -38,6 +38,15 @@ services:
       - postgres
       - mqtt
     restart: on-failure
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: always
 
 volumes:
   pgdata:
