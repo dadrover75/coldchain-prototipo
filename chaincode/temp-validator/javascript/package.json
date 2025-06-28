@@ -1,0 +1,9 @@
+{
+  "name": "temp-validator",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {},
+  "dependencies": {
+    "fabric-contract-api": "^2.4.9"
+  }
+}
