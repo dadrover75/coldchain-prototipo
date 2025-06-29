@@ -11,8 +11,8 @@ public class Main {
         double[] temperatures = {7.0, 6.5, 8.0, 6.8, 7.2, 6.9};  // valores iniciales por dispositivo
         Random random = new Random();
 
-        // String ip = "localhost"; // para testear en la local
-        String ip = "34.57.58.173"; // para testear en la nube
+         String ip = "localhost"; // para testear en la local
+        // String ip = "34.57.58.173"; // para testear en la nube
 
         String broker = "tcp://" + ip + ":1883";
         String clientId = "simulator-multi";

@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 function DeviceCard({ device }) {
     const navigate = useNavigate();
 
-    const color = device.temperature > 10 || device.temperature < -5
-        ? 'red' : device.temperature < -2 || device.temperature > 7
+    const color = device.temperature > 8 || device.temperature < -5
+        ? 'red' : device.temperature < -1 || device.temperature > 7
             ? 'orange' : 'green';
 
     return (
