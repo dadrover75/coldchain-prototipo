@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ROOTDIR=$(cd "$(dirname "$0")" && pwd)
-export PATH=${PWD}/bin:$PATH
+export PATH=${ROOTDIR}/bin:$PATH
 export FABRIC_CFG_PATH=${PWD}/configtx
 export VERBOSE=false
 
