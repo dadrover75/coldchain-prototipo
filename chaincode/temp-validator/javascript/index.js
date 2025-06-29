@@ -23,7 +23,7 @@ class TempValidatorContract extends Contract {
         await ctx.stub.putState(lecturaID, Buffer.from(lecturaJSON));
 
         // Validar temperatura
-        const tempValida = lectura.temperatura >= MIN_TEMP && lectura.temperatura <= MAX_TEMP;
+        const tempValida = lectura.temperature >= MIN_TEMP && lectura.temperature <= MAX_TEMP;
 
         // Obtener estado actual del contrato
         let estadoContratoBytes = await ctx.stub.getState("EstadoContrato");

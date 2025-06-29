@@ -5,4 +5,4 @@
 peer chaincode query \
   -C mychannel \
   -n chaincode-temp \
-  -c '{"function":"GetLectura","Args":["lectura1"]}'
+  -c '{"function":"GetLectura","Args":["123"]}'

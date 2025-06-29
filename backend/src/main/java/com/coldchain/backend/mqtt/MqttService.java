@@ -55,6 +55,9 @@ public class MqttService {
                 try {
                     Reading reading = objectMapper.readValue(payload, Reading.class);
 
+                    // Llamada al script del chaincode para validar la lectura
+                    validarEnChaincode(reading);
+
                     // Validar y setear status usando el servicio
                     String status = temperatureService.validarStatus(reading.getTemperature());
                     reading.setStatus(status);
@@ -87,4 +90,38 @@ public class MqttService {
             e.printStackTrace();
         }
     }
+
+    private void validarEnChaincode(Reading reading) {
+        try {
+            String scriptPath = "/fabric-network/invoke_temp.sh"; // Use the container path
+            ProcessBuilder pb = new ProcessBuilder(
+                    "/bin/bash",
+                    scriptPath,
+                    reading.getDeviceId(),
+                    reading.getTimestamp().toString(),
+                    String.valueOf(reading.getTemperature())
+            );
+
+            pb.redirectErrorStream(true);  // combina stdout y stderr
+            Process process = pb.start();
+
+            // Leer salida
+            try (var reader = new java.io.BufferedReader(new java.io.InputStreamReader(process.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println("[Chaincode Output] " + line);
+                }
+            }
+
+            int exitCode = process.waitFor();
+            if (exitCode != 0) {
+                System.err.println("Error al invocar chaincode. Código: " + exitCode);
+            }
+
+        } catch (IOException | InterruptedException e) {
+            System.err.println("Fallo al ejecutar el script del contrato: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 }

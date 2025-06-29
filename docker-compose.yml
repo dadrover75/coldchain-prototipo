@@ -9,6 +9,8 @@ services:
       - "1883:1883"
     volumes:
       - ./docker/mosquitto:/mosquitto/config
+    networks:
+      - fabric_test
     restart: always
 
   postgres:
@@ -21,6 +23,8 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - fabric_test
     restart: always
 
   backend:
@@ -34,6 +38,10 @@ services:
       SPRING_DATASOURCE_USERNAME: diana
       SPRING_DATASOURCE_PASSWORD: secret
       MQTT_BROKER_URI: tcp://mqtt:1883
+    volumes:
+      - /Users/computadora/coldchain-prototipo/fabric/network:/fabric-network
+    networks:
+      - fabric_test
     depends_on:
       - postgres
       - mqtt
@@ -46,8 +54,14 @@ services:
       - "80:80"
     depends_on:
       - backend
+    networks:
+      - fabric_test
     restart: always
 
 volumes:
   pgdata:
     driver: local
+
+networks:
+  fabric_test:
+    external: true
