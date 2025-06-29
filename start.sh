@@ -4,6 +4,9 @@ set -e
 
 echo "🚀 [1/5] Levantando red de Hyperledger Fabric..."
 cd "$(dirname "$0")/fabric/network"
+
+export PATH=$PWD/bin:$PATH
+
 ./network.sh down
 ./network.sh up createChannel -ca -c mychannel
 
