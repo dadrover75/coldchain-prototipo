@@ -97,7 +97,7 @@ Cada lectura del sensor:
 
 El proyecto incluye un módulo `simulator` (Java + Maven) que:
 
-* Publica valores de temperatura en el tópico `sensors/mock`.
+* Publica valores de temperatura en el tópico `device/temperature`.
 * Emula el comportamiento de sensores físicos para testing.
 
 Podés ejecutarlo de forma independiente:
