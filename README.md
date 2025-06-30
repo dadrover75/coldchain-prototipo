@@ -136,8 +136,3 @@ El sistema está diseñado para ser modular y escalable. Algunas mejoras planifi
 Proyecto desarrollado por **Diana Adrover** para trazabilidad en la cadena de frío con enfoque en automatización agrícola e integración de datos.
 
 ---
-
-```
-
-¿Querés que también te genere el mismo contenido en PDF para compartirlo o presentarlo?
-```
