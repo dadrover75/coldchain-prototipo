@@ -10,8 +10,8 @@ export PATH=$PWD/bin:$PATH
 ./network.sh down
 ./network.sh up createChannel -ca -c mychannel
 
-echo "⏳ [2/5] Esperando 10 segundos para que la red se estabilice..."
-sleep 10
+echo "⏳ [2/5] Esperando 5 segundos para que la red se estabilice..."
+sleep 5
 
 echo "📦 [3/5] Desplegando chaincode..."
 ./redeploy-chaincode.sh
