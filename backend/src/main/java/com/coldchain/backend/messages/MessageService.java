@@ -1,4 +1,4 @@
-package com.coldchain.backend.mqtt;
+package com.coldchain.backend.messages;
 
 import com.coldchain.backend.controller.ReadingWebSocketController;
 import jakarta.annotation.PostConstruct;
@@ -18,7 +18,7 @@ import com.coldchain.backend.model.Reading;
 import com.coldchain.backend.repository.ReadingRepository;
 
 @Service
-public class MqttService {
+public class MessageService {
 
     @Value("${mqtt.broker.uri}")
     private String BROKER_URI;
@@ -30,7 +30,7 @@ public class MqttService {
     private final ReadingWebSocketController readingWebSocketController;
 
     @Autowired
-    public MqttService(ReadingRepository readingRepository, TemperatureService temperatureService, ReadingWebSocketController readingWebSocketController) {
+    public MessageService(ReadingRepository readingRepository, TemperatureService temperatureService, ReadingWebSocketController readingWebSocketController) {
         this.readingRepository = readingRepository;
         this.temperatureService = temperatureService;
         this.readingWebSocketController = readingWebSocketController;

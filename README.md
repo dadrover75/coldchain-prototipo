@@ -3,7 +3,7 @@
 
 Este proyecto es un sistema completo de trazabilidad de la cadena de frío basado en tecnologías modernas: IoT para la captura de datos en tiempo real, WebSockets para la visualización, y **Hyperledger Fabric** para asegurar integridad e inmutabilidad mediante **smart contracts**.
 
-## 🚀 Tecnologías utilizadas
+## Tecnologías utilizadas
 
 - **Java + Spring Boot** (backend)
 - **React** (frontend)
@@ -15,7 +15,7 @@ Este proyecto es un sistema completo de trazabilidad de la cadena de frío basad
 
 ---
 
-## 🧱 Arquitectura
+## Arquitectura
 
 ```text
 [Simulador IoT (Java)]
@@ -35,7 +35,7 @@ Este proyecto es un sistema completo de trazabilidad de la cadena de frío basad
 
 ---
 
-## 📦 Instrucciones de arranque
+## Instrucciones de arranque
 
 1. **Clona el repositorio**:
 
@@ -58,15 +58,15 @@ chmod +x start.sh
 
 Este script realiza lo siguiente:
 
-* 📡 \[1/5] Levanta la red de **Hyperledger Fabric**.
-* ⏳ \[2/5] Espera unos segundos para su estabilización.
-* 📦 \[3/5] Despliega el **Chaincode** y lo aprueban las organizaciones.
-* 🔗 \[4/5] Inicia los servicios: `postgres`, `mosquitto`, `backend`, `frontend`.
-* 🧪 \[5/5] Compila y lanza el simulador de sensores que publica datos MQTT.
+* \[1/5] Levanta la red de **Hyperledger Fabric**.
+* \[2/5] Espera unos segundos para su estabilización.
+* \[3/5] Despliega el **Chaincode** y lo aprueban las organizaciones.
+* \[4/5] Inicia los servicios: `postgres`, `mosquitto`, `backend`, `frontend`.
+* \[5/5] Compila y lanza el simulador de sensores que publica datos MQTT.
 
 ---
 
-## 🌐 Visualización
+## Visualización
 
 Una vez iniciado todo correctamente, abrí tu navegador en:
 
@@ -76,12 +76,12 @@ http://localhost:80
 
 Allí verás un **dashboard en tiempo real** con:
 
-* 🔴 Tarjetas por cada dispositivo con la **temperatura actual**.
-* 📈 Al hacer clic, podés ver el **historial gráfico** de lecturas.
+* Tarjetas por cada dispositivo con la **temperatura actual**.
+* Al hacer clic, podés ver el **historial gráfico** de lecturas.
 
 ---
 
-## 🔒 ¿Qué sucede por detrás?
+## ¿Qué sucede por detrás?
 
 Cada lectura del sensor:
 
@@ -93,7 +93,7 @@ Cada lectura del sensor:
 
 ---
 
-## 🧪 Simulador de sensores
+## Simulador de sensores
 
 El proyecto incluye un módulo `simulator` (Java + Maven) que:
 
@@ -110,7 +110,7 @@ java -jar target/simulator-*-jar-with-dependencies.jar
 
 ---
 
-## 📌 Requisitos previos
+## Requisitos previos
 
 * Docker y Docker Compose instalados.
 * Java 17 y Maven instalados si querés correr el simulador fuera de contenedor.
@@ -118,7 +118,7 @@ java -jar target/simulator-*-jar-with-dependencies.jar
 
 ---
 
-## 🛠️ Próximos pasos
+## Próximos pasos
 
 El sistema está diseñado para ser modular y escalable. Algunas mejoras planificadas incluyen:
 
@@ -131,7 +131,7 @@ El sistema está diseñado para ser modular y escalable. Algunas mejoras planifi
 
 ---
 
-## 🧑‍💻 Autora
+## Autora
 
 Proyecto desarrollado por **Diana Adrover** para trazabilidad en la cadena de frío con enfoque en automatización agrícola e integración de datos.
 
