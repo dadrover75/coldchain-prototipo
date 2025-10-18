@@ -3,7 +3,7 @@
 const { Contract } = require('fabric-contract-api');
 
 const MIN_TEMP = 2;
-const MAX_TEMP = 8;
+const MAX_TEMP = 10;
 
 class TempValidatorContract extends Contract {
 
