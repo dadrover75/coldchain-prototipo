@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import com.coldchain.backend.model.Reading;
 import com.coldchain.backend.repository.ReadingRepository;
+import com.coldchain.backend.service.FabricGatewayService;
 
 @Service
 public class MessageService {
@@ -26,8 +27,10 @@ public class MessageService {
 
     private MqttClient client;
     private final ReadingRepository readingRepository;
-    private final TemperatureService temperatureService;  // Inyectamos el servicio
+    private final TemperatureService temperatureService;
     private final ReadingWebSocketController readingWebSocketController;
+    @Autowired(required = false)
+    private FabricGatewayService fabricGatewayService; // opcional sin @Nullable
 
     @Autowired
     public MessageService(ReadingRepository readingRepository, TemperatureService temperatureService, ReadingWebSocketController readingWebSocketController) {
@@ -55,16 +58,20 @@ public class MessageService {
                 try {
                     Reading reading = objectMapper.readValue(payload, Reading.class);
 
-                    // Llamada al script del chaincode para validar la lectura
-                    validarEnChaincode(reading);
+                    // Invocar chaincode mediante Fabric Gateway si está disponible
+                    if (fabricGatewayService != null) {
+                        String fabricResult = fabricGatewayService.validarLecturaEnLedger(reading);
+                        System.out.println("Resultado invocación Fabric: " + fabricResult);
+                    } else {
+                        System.out.println("FabricGatewayService no disponible (deshabilitado en este perfil). Se omite envío a ledger.");
+                    }
 
-                    // Validar y setear status usando el servicio
+                    // Validar y setear status usando el servicio de negocio
                     String status = temperatureService.validarStatus(reading.getTemperature());
                     reading.setStatus(status);
 
                     readingRepository.save(reading);
                     // Enviar la lectura a través de WebSocket
-                    System.out.println("Enviando por WebSocket: " + reading);
                     readingWebSocketController.sendReading(reading);
                     System.out.println("Lectura guardada en base de datos: " + reading.getDeviceId() + " " + reading.getTemperature());
                 } catch (IOException e) {
@@ -90,38 +97,4 @@ public class MessageService {
             e.printStackTrace();
         }
     }
-
-    private void validarEnChaincode(Reading reading) {
-        try {
-            String scriptPath = "/fabric-network/invoke_temp.sh"; // Use the container path
-            ProcessBuilder pb = new ProcessBuilder(
-                    "/bin/bash",
-                    scriptPath,
-                    reading.getDeviceId(),
-                    reading.getTimestamp().toString(),
-                    String.valueOf(reading.getTemperature())
-            );
-
-            pb.redirectErrorStream(true);  // combina stdout y stderr
-            Process process = pb.start();
-
-            // Leer salida
-            try (var reader = new java.io.BufferedReader(new java.io.InputStreamReader(process.getInputStream()))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    System.out.println("[Chaincode Output] " + line);
-                }
-            }
-
-            int exitCode = process.waitFor();
-            if (exitCode != 0) {
-                System.err.println("Error al invocar chaincode. Código: " + exitCode);
-            }
-
-        } catch (IOException | InterruptedException e) {
-            System.err.println("Fallo al ejecutar el script del contrato: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
 }
